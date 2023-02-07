@@ -1,4 +1,11 @@
-import { getPageInformation, setCurrency, setPlanDuration, setRentalPlan, validatePlanPricing } from "../utils"
+import {
+  getPageInformation,
+  setCurrency,
+  setPlanDuration,
+  setRentalPlan,
+  validatePlanPricing,
+  getPlanCard
+} from "../utils"
 
 const currencyInfo = [
   {
@@ -18,8 +25,8 @@ const currencyInfo = [
 const pricing = {
   usd: {
     Starter: {
-      planFinalPricing: 92,
-      planOriginalPricing: 64,
+      planFinalPricing: 64,
+      planOriginalPricing: 92,
       isDiscounted: true
     },
     Professional: {
@@ -71,7 +78,6 @@ const pricing = {
 
 describe('Pricing Page', () => {
   var pageInformation;
-  var selectedCurrency;
   before(() => {
     pageInformation = getPageInformation('Pricing');
     cy.visit(pageInformation.route);
@@ -109,14 +115,12 @@ describe('Pricing Page', () => {
     })
   })
   context('Check Change Currency Affect Plans Pricing - 50 listings', () => {
-    before(() => {
+    it(`Should be able to change currency to`, () => {
+      var selectedCurrency;
       const filteredCurrency = currencyInfo.filter((currency) => {
         currency.currencyCode != 'usd'
       });
-      selectedCurrency = Cypress._.sample(filteredCurrency);
-    });
-    it(`Should be able to change currency to ${selectedCurrency.upperCase()}`, () => {
-      setCurrency(selectedCurrency);
+      setCurrency(filteredCurrency[0].currencySymbol);
       setPlanDuration('Yearly');
       setRentalPlan();
     });

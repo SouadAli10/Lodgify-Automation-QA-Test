@@ -1,7 +1,7 @@
 import { pageRoutes } from "./routes";
 
 export const getPlanCard = (plan) => {
-    return cy.get('.price-item').contains(plan);
+    return cy.get('.price-item').contains(plan).parents('.price-item');
 }
 export const validatePlanPricing = (plan, finalPricing, originalPricing, discount = false, currency = '$') => {
     getPlanCard(plan).within(($card) => {
@@ -13,11 +13,11 @@ export const validatePlanPricing = (plan, finalPricing, originalPricing, discoun
     });
 }
 
-export const setRentalPlan = (rentalNumber = 50) => {
-    cy.get('#scroll-prop-plan').clear().type(rentalNumber);
+export const setRentalPlan = (rentalNumber = '50') => {
+    cy.get('#scroll-prop-plan').clear().type(rentalNumber.toString());
     cy.get('.slider-handle.min-slider-handle')
         .invoke('attr', 'aria-valuenow')
-        .should('eq', rentalNumber);
+        .should('eq', rentalNumber.toString());
 }
 
 export const setCurrency = (currency = 'usd') => {
@@ -26,8 +26,8 @@ export const setCurrency = (currency = 'usd') => {
 
 export const setPlanDuration = (period) => {
     cy.get('li')
-        .should('have.attr', 'data-price-period')
         .contains(period)
+        .parent()
         .click()
         .should('have.class', 'active');
 }
