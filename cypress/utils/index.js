@@ -1,7 +1,10 @@
 import { pageRoutes } from "./routes";
 
+export const getPlanCard = (plan) => {
+    return cy.get('.price-item').contains(plan);
+}
 export const validatePlanPricing = (plan, finalPricing, originalPricing, discount = false, currency = '$') => {
-    cy.get('.price-item').contains(plan).within(($card) => {
+    getPlanCard(plan).within(($card) => {
         cy.get('.currency.currency-symbol').contains(currency);
         cy.get('.total-sum').contains(finalPricing);
         if (discount) {
