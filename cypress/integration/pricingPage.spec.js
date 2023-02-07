@@ -18,9 +18,9 @@ const currencyInfo = [
 const pricing = {
   usd: {
     Starter: {
-      planFinalPricing: 64,
+      planFinalPricing: 92,
       planOriginalPricing: 64,
-      isDiscounted: false
+      isDiscounted: true
     },
     Professional: {
       planFinalPricing: 375,
@@ -35,35 +35,35 @@ const pricing = {
   },
   eur: {
     Starter: {
-      planFinalPricing: 64,
-      planOriginalPricing: 64,
-      isDiscounted: false
+      planFinalPricing: 60,
+      planOriginalPricing: 85,
+      isDiscounted: true
     },
     Professional: {
-      planFinalPricing: 375,
-      planOriginalPricing: 536,
+      planFinalPricing: 330,
+      planOriginalPricing: 472,
       isDiscounted: true
     },
     Ultimate: {
-      planFinalPricing: 525,
-      planOriginalPricing: 741,
+      planFinalPricing: 466,
+      planOriginalPricing: 666,
       isDiscounted: true
     }
   },
   gbp: {
     Starter: {
-      planFinalPricing: 64,
-      planOriginalPricing: 64,
-      isDiscounted: false
+      planFinalPricing: 51,
+      planOriginalPricing: 73,
+      isDiscounted: true
     },
     Professional: {
-      planFinalPricing: 375,
-      planOriginalPricing: 536,
+      planFinalPricing: 294,
+      planOriginalPricing: 420,
       isDiscounted: true
     },
     Ultimate: {
-      planFinalPricing: 525,
-      planOriginalPricing: 741,
+      planFinalPricing: 414,
+      planOriginalPricing: 592,
       isDiscounted: true
     }
   }
@@ -79,6 +79,7 @@ describe('Pricing Page', () => {
   it('Should have the correct title', () => {
     cy.title().should('include', pageInformation.title);
   });
+
   //The values for listing at the moment are hard coded we might want to intercept them in an API if that is needed for more flexibility 
   context('Check USD Plans Pricing - 50 listings', () => {
     it('Should be able to set the currency, rental duration and rental properties', () => {
@@ -95,6 +96,15 @@ describe('Pricing Page', () => {
           planDetails.isDiscounted,
           '$'
         )
+      });
+
+      it('Should validate Plan Card Structure', () => {
+        getPlanCard(planName).within(($card) => {
+          cy.contains('Get Started')
+            .invoke('attr', 'href')
+            .should('eq', 'https://www.lodgify.com/signup');
+          cy.get('.plan-feature-lists li').should('have.length.least', 1);
+        })
       });
     })
   })
