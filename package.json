@@ -10,7 +10,7 @@
   "author": "Lodgify QA Team",
   "license": "MIT",
   "devDependencies": {
-    "cypress": "^9.5.3"
+    "cypress": "^12.5.1"
   },
   "scripts": {
     "dev-server": "node server/server.js",
