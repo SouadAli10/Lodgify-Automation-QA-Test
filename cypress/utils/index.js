@@ -45,3 +45,4 @@ export const fieldErrorMessage = (placeholder, exist, errorMessage) => {
 export const getPageInformation = (page) => {
     return pageRoutes[page];
 }
+

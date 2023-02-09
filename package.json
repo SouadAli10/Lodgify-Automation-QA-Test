@@ -17,5 +17,8 @@
     "install-all": "npm install && cd server && npm install",
     "cy:open": "npx cypress open",
     "cy:run": "npx cypress run --browser chrome"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0"
   }
 }
