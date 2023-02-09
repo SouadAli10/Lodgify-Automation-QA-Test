@@ -10,12 +10,15 @@
   "author": "Lodgify QA Team",
   "license": "MIT",
   "devDependencies": {
-    "cypress": "^9.5.3"
+    "cypress": "^12.5.1"
   },
   "scripts": {
     "dev-server": "node server/server.js",
     "install-all": "npm install && cd server && npm install",
     "cy:open": "npx cypress open",
     "cy:run": "npx cypress run --browser chrome"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^7.6.0"
   }
 }
