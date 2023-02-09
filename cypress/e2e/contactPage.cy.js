@@ -29,12 +29,10 @@ describe('Contact Page', () => {
       cy.get('[placeholder="Phone"]').clear().type(`${faker.phone.number()}`, {delay : 30});
       cy.get('[placeholder="Email"]').clear().type(`${faker.internet.email()}`, {delay : 30});
       cy.get('[placeholder="Comment"]').clear().type(`${faker.random.alphaNumeric(15)}`, {delay : 30});
-      cy.get('[data-testid="button"]').click();
-
     });
   });
 
-  it('Should be able to submit form with all fields', () => {
+  it('Should be able to submit form with all fields including the date picker ', () => {
     cy.get('[data-testid="form"]').within(($form) => {
       cy.get('[placeholder="Name"]').clear().type(`${faker.random.word()}`, {delay : 30});
       cy.get('[placeholder="Phone"]').clear().type(`${faker.phone.number()}`, {delay : 30});
@@ -42,7 +40,6 @@ describe('Contact Page', () => {
       cy.get('[placeholder="Arrival"]').click().type('14/04/2023' + '{enter}', {force: true, delay : 30});
       cy.get('[placeholder="Departure"]').type('14/06/2023' + '{enter}', {force: true, delay : 30});
       cy.get('[placeholder="Comment"]').type(`${faker.random.alphaNumeric(15)}`, {delay : 30});
-      cy.get('[data-testid="button"]').click();
 
     });
   })

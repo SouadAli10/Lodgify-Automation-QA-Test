@@ -10,15 +10,18 @@ import {
 const currencyInfo = [
   {
     currencySymbol: '$',
-    currencyCode: 'usd'
+    currencyCode: 'usd',
+    label: '$ USD'
   },
   {
     currencySymbol: '€',
-    currencyCode: 'eur'
+    currencyCode: 'eur',
+    label: '€ EUR'
   },
   {
     currencySymbol: '£',
-    currencyCode: 'gbp'
+    currencyCode: 'gbp',
+    label: '£ GBP'
   },
 ];
 
@@ -79,6 +82,7 @@ const pricing = {
 describe('Pricing Page', () => {
   var pageInformation;
   before(() => {
+
     pageInformation = getPageInformation('Pricing');
     cy.visit(pageInformation.route);
   });
@@ -86,7 +90,7 @@ describe('Pricing Page', () => {
     cy.title().should('include', pageInformation.title);
   });
 
-  //The values for listing at the moment are hard coded we might want to intercept them in an API if that is needed for more flexibility 
+  // The values for listing at the moment are hard coded we might want to intercept them in an API if that is needed for more flexibility 
   context('Check USD Plans Pricing - 50 listings', () => {
     it('Should be able to set the currency, rental duration and rental properties', () => {
       setCurrency();
@@ -104,7 +108,7 @@ describe('Pricing Page', () => {
         )
       });
 
-      it('Should validate Plan Card Structure', () => {
+      it(`Should validate Plan Card Structure ${planName}`, () => {
         getPlanCard(planName).within(($card) => {
           cy.contains('Get Started')
             .invoke('attr', 'href')
@@ -117,12 +121,20 @@ describe('Pricing Page', () => {
   context('Check Change Currency Affect Plans Pricing - 50 listings', () => {
     it(`Should be able to change currency to`, () => {
       var selectedCurrency;
-      const filteredCurrency = currencyInfo.filter((currency) => {
-        currency.currencyCode != 'usd'
-      });
-      setCurrency(filteredCurrency[0].currencySymbol);
+      const filteredCurrency = currencyInfo.filter(currency => currency.currencyCode != 'usd');
+      selectedCurrency = Cypress._.sample(filteredCurrency);
+      setCurrency(selectedCurrency.label);
       setPlanDuration('Yearly');
       setRentalPlan();
+      const planName = 'Starter';
+      const plan = pricing[selectedCurrency.currencyCode][planName];
+      validatePlanPricing(
+        planName,
+        plan.planFinalPricing,
+        plan.planOriginalPricing,
+        plan.isDiscounted,
+        selectedCurrency.currencySymbol
+      )
     });
   })
 })
